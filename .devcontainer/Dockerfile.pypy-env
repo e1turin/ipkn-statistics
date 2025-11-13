@@ -1,0 +1,23 @@
+FROM pypy:latest
+
+SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
+
+ENV TZ=Europe/Moscow
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+# scipy deps
+RUN apt update -y && \
+    apt install -yyq \
+      gfortran \
+      libopenblas-dev \
+      cmake \
+      pkg-config
+  
+RUN pip -q install \
+        scipy \
+        numpy \
+        pandas \
+        matplotlib \
+        tqdm \
+        pytest \
+        ipykernel
